@@ -1,4 +1,7 @@
 from pyeda.inter import *
+import graphviz
+import os
+import time
 #Returns if node is edge
 def is_edge(i, j):
     return ((i + 3) % 32 == j % 32) or ((i + 8) % 32 == j % 32)
@@ -34,3 +37,14 @@ def print_bdd(bdd, varmap=None, indent=0):
     print_bdd(high_bdd, varmap, indent + 4)
     print(' ' * indent + f'Else if {var_label} is False:')
     print_bdd(low_bdd, varmap, indent + 4)
+
+
+#saves graph as a png file into build folder
+def visualize_bdd(bdd):
+    timestamp = time.strftime('%Y%m%d-%H%M%S')
+    filename = f'bdd_structure_{timestamp}.txt'
+    dot_str = bdd.to_dot()
+    graph = graphviz.Source(dot_str)
+    graph.render(filename=filename, format='png', view=True , directory=os.getcwd()+'/build')
+
+
