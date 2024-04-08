@@ -4,6 +4,7 @@ from functions import *
 # Define the graph G with 32 nodes
 nodes = range(32)
 
+
 # Define the sets even and prime and edge
 even_set = {i for i in nodes if i % 2 == 0}
 prime_set = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31}
@@ -27,7 +28,7 @@ RR = expressionList[0]
 for expr in expressionList[1:]:
     RR |= expr  
 
+ 
 
-
-visualize_bdd(RR)
+visualize_bdd(bdd_compose(RR,RR))
 

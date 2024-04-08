@@ -7,7 +7,10 @@ import time
 size = 32 
 #number of bits (log2(32))
 bits = 5
-
+#bddvars
+xa = bddvars('x', 5)
+ya = bddvars('y', 5)
+za = bddvars('z', 5)
 #Returns if node is edge
 def isEdge(i, j):
     return ((i + 3) % 32 == j % 32) or ((i + 8) % 32 == j % 32)
@@ -55,6 +58,13 @@ def expressionFactory(i, j):
 
     return x & y
 
+def bdd_compose(bdd1 , bdd2):
+    for i in range(0, bits):
+        bdd1 = bdd1.compose({ya[i]: za[i]})
+        bdd2 = bdd2.compose({xa[i]: za[i]})
+    return (bdd1 & bdd2).smoothing(za)
+
+
 #saves graph as a png file into build folder
 def visualize_bdd(bdd):
     timestamp = time.strftime('%Y%m%d-%H%M%S')
@@ -63,6 +73,5 @@ def visualize_bdd(bdd):
     graph = graphviz.Source(dot_str)
     graph.render(filename=filename, format='png', view=True , directory=os.getcwd()+'/build')
 
-#converts bddlistToExpression
 
 

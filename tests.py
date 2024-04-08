@@ -1,4 +1,4 @@
-from main import even_set, prime_set, edgeSet,RR
+from main import even_set, prime_set, edgeSet,t1,t2
 from pyeda.inter import bdd2expr, expr2bdd, exprvar,bddvar,Or,And,Not
 
 def testFiniteSets():
@@ -11,3 +11,6 @@ def testFiniteSets():
 
 
 
+def testRR2():
+    assert t1 != None
+    assert t2 == None
