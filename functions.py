@@ -57,6 +57,8 @@ def expressionFactory(i, j):
 
 
 
+
+
 #saves graph as a png file into build folder
 def visualize_bdd(bdd):
     timestamp = time.strftime('%Y%m%d-%H%M%S')
@@ -65,4 +67,9 @@ def visualize_bdd(bdd):
     graph = graphviz.Source(dot_str)
     graph.render(filename=filename, format='png', view=True , directory=os.getcwd()+'/build')
 
-
+#converts bddlistToExpression
+def bddListToExpression(list):
+    result = []
+    for i in list:
+        result.append(bdd2expr(i))
+    return result

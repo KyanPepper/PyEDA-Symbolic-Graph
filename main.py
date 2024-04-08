@@ -14,7 +14,7 @@ for i in nodes:
         if isEdge(i,j):
             edgeSet.add((i,j))
 
-##Also known as RR
+##Before conversion
 expressionList = []
 
 # Iterate over node pair in edgeSet and add the expression to expressionlist
@@ -22,9 +22,10 @@ for i, j in edgeSet:
     formula = expressionFactory(i, j)
     expressionList.append(formula)
 
+#Expression List Post conversion
+EP = bddListToExpression(expressionList)
+print(bddListToExpression(expressionList))
 
 
 
-print(expressionList)
-visualize_bdd(expressionList[0])
 
