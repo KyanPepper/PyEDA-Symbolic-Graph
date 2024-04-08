@@ -1,9 +1,9 @@
-from main import even_set, prime_set, edgeSet
-
+from main import even_set, prime_set, edgeSet,RR
+from pyeda.inter import bdd2expr, expr2bdd, exprvar,bddvar,Or,And,Not
 
 def testFiniteSets():
-    assert edgeSet(27, 3) == True
-    assert edgeSet(16, 20) == False
+    assert (27, 3) in edgeSet 
+    assert (16, 20) not in edgeSet
     assert 14 in even_set
     assert 13 not in even_set
     assert 7 in prime_set

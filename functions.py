@@ -31,7 +31,8 @@ def boolListToExp(list, name):
     
     return result
 
-def bool_array(num):
+#converts integer to boolean array
+def to_bin(num):
     #formats into 5 bit binary string
     binary_str = format(num, '05b') 
     result = []
@@ -44,20 +45,15 @@ def bool_array(num):
 
     return result
 
-#returns the expression for the edge set
+#returns the singlebdd for the edge set
 def expressionFactory(i, j):
-    x = bool_array(i)
-    y = bool_array(j)
+    argx = to_bin(i)
+    argy = to_bin(j)
 
-    x = boolListToExp(x, 'x')
-    y = boolListToExp(y, 'y')
-    
-    return x and y
-    
+    x = boolListToExp(argx, 'x')
+    y = boolListToExp(argy, 'y')
 
-
-
-
+    return x & y
 
 #saves graph as a png file into build folder
 def visualize_bdd(bdd):
@@ -68,8 +64,5 @@ def visualize_bdd(bdd):
     graph.render(filename=filename, format='png', view=True , directory=os.getcwd()+'/build')
 
 #converts bddlistToExpression
-def bddListToExpression(list):
-    result = []
-    for i in list:
-        result.append(bdd2expr(i))
-    return result
+
+

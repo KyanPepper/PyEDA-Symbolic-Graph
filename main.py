@@ -22,10 +22,12 @@ for i, j in edgeSet:
     formula = expressionFactory(i, j)
     expressionList.append(formula)
 
-#Expression List Post conversion
-EP = bddListToExpression(expressionList)
-print(bddListToExpression(expressionList))
+# Combine all expressions with or to make RR BDD
+RR = expressionList[0]
+for expr in expressionList[1:]:
+    RR |= expr  
 
 
 
+visualize_bdd(RR)
 
