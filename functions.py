@@ -2,41 +2,59 @@ from pyeda.inter import *
 import graphviz
 import os
 import time
+
+#size of graph
+size = 32 
+#number of bits (log2(32))
+bits = 5
+
 #Returns if node is edge
-def is_edge(i, j):
+def isEdge(i, j):
     return ((i + 3) % 32 == j % 32) or ((i + 8) % 32 == j % 32)
 
-#Print boolean tree of BDD
-def print_bdd(bdd, varmap=None, indent=0):
-    if varmap is None:
-        varmap = {}
+def boolListToExp(list, name):
+    # Create list of Boolean variables
+    bdds = bddvars(name, bits)
     
-    # Base case: BDD is terminal (constant 0 or 1)
-    if bdd.is_zero():
-        print(' ' * indent + 'False')
-        return
-    elif bdd.is_one():
-        print(' ' * indent + 'True')
-        return
+    bddlist = []
+    # Creates a list of expressions for each bit in the list
+    for key, value in zip(bdds, list):
+        if value:
+            bddlist.append(key)
+        else:
+            bddlist.append(~key)
     
-    # Get the top variable of the BDD node
-    var = bdd.top
+    result = bddlist[0]
+    # Combine all expressions with & 
+    for expr in bddlist[1:]:
+        result = result & expr
+    
+    return result
 
-    # Assign label to variable if not already assigned
-    if var not in varmap:
-        varmap[var] = var
+def bool_array(num):
+    #formats into 5 bit binary string
+    binary_str = format(num, '05b') 
+    result = []
 
-    var_label = varmap[var]
+    # Iterate over each bit and casts to int then bool then adds to list
+    for bit in binary_str:
+        bit_value = int(bit)
+        boolean_value = bool(bit_value)
+        result.append(boolean_value)
 
-    # Recursive call for high and low branches
-    high_bdd = bdd.restrict({var: 1})
-    low_bdd = bdd.restrict({var: 0})
+    return result
 
-    # Print node with variable label and branching information
-    print(' ' * indent + f'If {var_label} is True:')
-    print_bdd(high_bdd, varmap, indent + 4)
-    print(' ' * indent + f'Else if {var_label} is False:')
-    print_bdd(low_bdd, varmap, indent + 4)
+#returns the expression for the edge set
+def expressionFactory(i, j):
+    x = bool_array(i)
+    y = bool_array(j)
+
+    x = boolListToExp(x, 'x')
+    y = boolListToExp(y, 'y')
+    
+    return x and y
+    
+
 
 
 #saves graph as a png file into build folder
