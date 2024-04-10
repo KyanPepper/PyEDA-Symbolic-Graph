@@ -28,7 +28,6 @@ RR = expressionList[0]
 for expr in expressionList[1:]:
     RR |= expr  
 
- 
-
-visualize_bdd(bdd_compose(RR,RR))
+##RR2
+RR2 = bdd_compose(RR,RR)
 

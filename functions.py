@@ -72,6 +72,3 @@ def visualize_bdd(bdd):
     dot_str = bdd.to_dot()
     graph = graphviz.Source(dot_str)
     graph.render(filename=filename, format='png', view=True , directory=os.getcwd()+'/build')
-
-
-

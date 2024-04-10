@@ -1,5 +1,6 @@
-from main import even_set, prime_set, edgeSet,t1,t2
+from main import even_set, prime_set, edgeSet, RR2
 from pyeda.inter import bdd2expr, expr2bdd, exprvar,bddvar,Or,And,Not
+from functions import expressionFactory
 
 def testFiniteSets():
     assert (27, 3) in edgeSet 
@@ -12,5 +13,16 @@ def testFiniteSets():
 
 
 def testRR2():
-    assert t1 != None
-    assert t2 == None
+    RR2str = (str(bdd2expr(RR2)))
+    
+    edgeTestPass = expressionFactory(27,6)
+    edgeStr = (str(bdd2expr(edgeTestPass)))
+
+    edgeTestFail = expressionFactory(23,6)
+    edgeStrF = (str(bdd2expr(edgeTestFail)))
+
+    assert edgeStr in RR2str
+    assert edgeStrF not in RR2str
+    
+
+   
