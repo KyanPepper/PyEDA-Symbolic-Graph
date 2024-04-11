@@ -31,3 +31,10 @@ for expr in expressionList[1:]:
 ##RR2
 RR2 = bdd_compose(RR,RR)
 
+#Computes R stars with transitive closuren, RR2star encodes the set of all node pairs such that one can reach the other in a positive even number of steps.
+RR2Star = compute_transitive_closure(RR2)
+
+#for every prime number  u, there exists at least one even number  v such that  u is related to  v
+A = Not(RR2Star).smoothing().equivalent(False)
+
+

@@ -58,11 +58,39 @@ def expressionFactory(i, j):
 
     return x & y
 
+#compose function, takes 2 bdds and composes them together 
 def bdd_compose(bdd1 , bdd2):
     for i in range(0, bits):
         bdd1 = bdd1.compose({ya[i]: za[i]})
         bdd2 = bdd2.compose({xa[i]: za[i]})
     return (bdd1 & bdd2).smoothing(za)
+
+
+
+def compute_transitive_closure(R):
+    current_closure = R
+    
+    while True:
+        previous_closure = current_closure
+        
+        # Compute H ∘ (y → z) and R ∘ (x → z) using my compose function
+        substituted_H = bdd_compose(current_closure, R)
+        substituted_R = bdd_compose(R, R)  # Using R again for R ∘ (x → z)
+        
+        # Compute H ∩ (H ∘ R)
+        intersection = current_closure & substituted_H & substituted_R
+        
+        # Update the current closure: H = H ∪ (H ∩ (H ∘ R))
+        current_closure = previous_closure | intersection
+        
+        # Remove z variables from the current closure
+        current_closure = current_closure.smoothing(za)
+        
+        # Check for convergence by comparing current closure with previous closure
+        if current_closure.equivalent(previous_closure):
+            break
+    
+    return current_closure
 
 
 #saves graph as a png file into build folder
